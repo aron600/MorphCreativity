@@ -38,20 +38,24 @@ class ActiveWords extends Component {
   switchAround() { }
   randomize() { }
 
-  renderWord(currentWord) {
-    <Word
-      value={currentWord}
-    />
 
+
+  renderWords() {
+    for (let x of this.state.words) {
+      this.renderWord(x);
+    }
   }
 
+  renderWord(currentWord) {
+    return (<Word
+      value={currentWord}
+    />
+    );
+  }
   render() {
     return (
       <div className="active-words">
-        {for (let x of this.state.words) {
-          this.renderWord(x);
-        }
-      }
+        {this.renderWords()}
       </div>
     );
   }
