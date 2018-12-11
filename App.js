@@ -13,7 +13,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <ActiveWords />
+        <ActiveWords className="Morph" />
 
       </div>
     );
@@ -24,13 +24,13 @@ class ActiveWords extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      words: Array(0).fill(null),
+      words: ['9999', '2', '3', '4'],
+      val: 'reached the danger zone',
     };
   }
 
   addWord(whichWord) {
-    var copyArr = this.words.push(whichWord)
-    return copyArr;
+    this.state.words.push(whichWord)
   }
 
   deleteWord() { }
@@ -41,21 +41,32 @@ class ActiveWords extends Component {
 
 
   renderWords() {
-    for (let x of this.state.words) {
-      this.renderWord(x);
-    }
+    var x = 3.1;
+    console.log('yyyyyyyyyyyyyyy');
+    //for (var x of this.state.words) {
+    this.renderWord();
+    console.log(x);
+    //}
+    console.log('bitchin');
   }
 
-  renderWord(currentWord) {
-    return (<Word
-      value={currentWord}
-    />
+  renderWord() {
+    console.log('Got this far');
+    console.log();
+    return (
+      <Word />
     );
   }
+
+
+
   render() {
     return (
       <div className="active-words">
-        {this.renderWords()}
+        Hello World1111
+        {/*this.renderWords()*/}
+        {this.renderWord(this.state.words[0])}
+        World Hellow
       </div>
     );
   }
@@ -64,9 +75,14 @@ class ActiveWords extends Component {
 
 function Word(props) {
   return (
-    <button className="word" onClick={props.onClick}>
-      {props.value}
-    </button>
+    <span>
+      <button className="lock">
+        {props.value}
+      </button>
+      <button className="delete">
+
+      </button>
+    </span>
   );
 }
 
