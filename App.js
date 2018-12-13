@@ -41,20 +41,16 @@ class ActiveWords extends Component {
 
 
   renderWords() {
-    var x = 3.1;
-    console.log('yyyyyyyyyyyyyyy');
-    //for (var x of this.state.words) {
+    
     this.renderWord();
-    console.log(x);
-    //}
-    console.log('bitchin');
+    
+  
   }
 
   renderWord() {
-    console.log('Got this far');
-    console.log();
+   
     return (
-      <Word />
+      <Card />
     );
   }
 
@@ -73,16 +69,48 @@ class ActiveWords extends Component {
 }
 
 
-function Word(props) {
+/*class Card extends React {
+  constructor (props) {
+    super(props);
+  }
+  render(){
   return (
-    <span>
-      <button className="lock">
-        {props.value}
-      </button>
-      <button className="delete">
+    <div className="rowC">
+      <LockWordButton className="lock" />
 
-      </button>
+      <span>
+      <LockWordButton className="lock" />
+      <DeleteWordButton className="delete" />
+      </span>
+    </div>
+  );
+  }
+}*/
+
+function Card(props) {
+  return (
+    <span className="invisbar">
+    <div className="wraptainer" >
+      <LockWordButton className="card" />
+
+      <div className="rowC">
+        <LockWordButton className="lock" />
+        <DeleteWordButton className="delete" />
+      </div>
+    </div>
     </span>
+  );
+}
+
+function DeleteWordButton() {
+  return(
+    <button/>
+  );
+}
+
+function LockWordButton() {
+  return(
+    <button/>
   );
 }
 

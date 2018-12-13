@@ -24,14 +24,14 @@
 }
 
 .active-words {
-  background-color: #0958f7;
+  background-color: #8b95ff;
   min-height: 1vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  margin: 20px;
+  margin: 0;
   padding: 20px;
   
 }
@@ -52,7 +52,7 @@
   font-weight: bold;
   line-height: 34px;
   height: 34px;
-  margin: 20px;
+  margin: 0;
   padding: 0;
   text-align: center;
   width: 34px;
@@ -70,8 +70,13 @@
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 17px;
+  width: 34px;
 }
+
+.rowC{display:flex; flex-direction:row;}
+.card{display:flex; flex-direction:column;}
+.wraptainer{height: 0; overflow: visible}
+.invisbar{height:40px; }
 
 @keyframes App-logo-spin {
   from {
