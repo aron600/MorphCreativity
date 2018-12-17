@@ -3,115 +3,160 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  typableArea() { }
 
   render() {
     return (
-
       <div className="App">
-
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <ActiveWords className="Morph" />
-
+        <ActiveWords />
+        <footer className="foot"/>
       </div>
     );
   }
 }
 
-class ActiveWords extends Component {
+class CardList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      words: ['9999', '2', '3', '4'],
-      val: 'reached the danger zone',
+      cards: []
     };
+ 
+    this.addCard = this.addCard.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
-  addWord(whichWord) {
-    this.state.words.push(whichWord)
-  }
-
-  deleteWord() { }
-  lockWord() { }
-  switchAround() { }
-  randomize() { }
-
-
-
-  renderWords() {
-    
-    this.renderWord();
-    
-  
-  }
-
-  renderWord() {
+  addCard(e) {
+    if (this._inputElement.value !== "") {
+      var newCard = {
+        text: this._inputElement.value,
+        key: Date.now()
+      };
    
+      this.setState((prevState) => {
+        return { 
+          cards: prevState.cards.concat(newCard) 
+        };
+      });
+     
+      this._inputElement.value = "";
+    }
+     
+    console.log(this.state.cards);
+       
+    e.preventDefault();
+  }
+
+  deleteItem(key) {
+    var filteredCards = this.state.cards.filter(function (card) {
+      return (card.key !== key);
+    });
+   
+    this.setState({
+      cards: filteredCards
+    });
+  }
+
+  render() {
     return (
-      <Card />
+      <div className="cardInputs">
+        <div className="bottomInput">
+         <form onSubmit={this.addCard}>
+         <input ref={(a) => this._inputElement = a} placeholder="enter task">
+            </input>
+            <button type="submit">add</button>
+          </form>
+        </div>
+        <CardQueue entries={this.state.cards} delete={this.deleteItem}/>
+      </div>
     );
   }
+}
+
+class CardQueue extends Component {
+  constructor(props) {
+    super(props);
+ 
+    this.createTasks = this.createTasks.bind(this);
+  }
+
+  createTasks(card) {
+    return <li onClick={() => this.delete(card.key)} 
+              key={card.key}>{card.text}</li>
+  }
+
+  delete(key) {
+    this.props.delete(key);
+  }
+ 
+  render() {
+    var cardQueue = this.props.entries;
+    var listCards = cardQueue.map(this.createTasks);
+ 
+    return (
+      <ul className="theList">
+          {listCards}
+      </ul>
+    );
+  }
+};
+ 
 
 
+class ActiveWords extends Component {
 
   render() {
     return (
       <div className="active-words">
-        Hello World1111
-        {/*this.renderWords()*/}
-        {this.renderWord(this.state.words[0])}
-        World Hellow
+        Card Queue Below Here
+        <Card />
+        <CardList/>
       </div>
     );
   }
 }
 
-
-/*class Card extends React {
-  constructor (props) {
-    super(props);
-  }
-  render(){
-  return (
-    <div className="rowC">
-      <LockWordButton className="lock" />
-
-      <span>
-      <LockWordButton className="lock" />
-      <DeleteWordButton className="delete" />
-      </span>
-    </div>
-  );
-  }
-}*/
-
 function Card(props) {
   return (
-    <span className="invisbar">
-    <div className="wraptainer" >
-      <LockWordButton className="card" />
-
-      <div className="rowC">
-        <LockWordButton className="lock" />
-        <DeleteWordButton className="delete" />
-      </div>
+    <span className="card">
+    <div>
+      <h1 className="word"> Card.props </h1>
+      <ButtonBar />
     </div>
     </span>
   );
 }
 
-function DeleteWordButton() {
+
+
+function ButtonBar() {
   return(
-    <button/>
+    <div className="buttonbar">
+        <LockWordButton />
+        <DeleteWordButton />
+    </div>
   );
 }
 
 function LockWordButton() {
   return(
-    <button/>
+    <button className="lock-button"/>
   );
 }
+
+function DeleteWordButton() {
+  return(
+    <button className="delete-button" />
+  );
+}
+
+
+
+
+/*
+replace with ArrowFunction*/
+
 
 export default App;
