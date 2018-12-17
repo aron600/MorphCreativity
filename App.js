@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import FlipMove from "react-flip-move";
 import './App.css';
 
 class App extends Component {
@@ -7,15 +8,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
+        <header id="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <ActiveWords />
+        <CardList />
         <footer className="foot"/>
       </div>
     );
   }
 }
+
+
 
 class CardList extends Component {
   constructor(props) {
@@ -59,17 +62,33 @@ class CardList extends Component {
     });
   }
 
+  listCards() {
+    return(
+      <div className="active-cards">
+            <CardQueue entries={this.state.cards} delete={this.deleteItem}/>
+      </div>
+    );
+  }
+
+  bottomInput(){
+    return(
+      <footer className="bottomInput">
+             <form onSubmit={this.addCard}>
+             <input ref={(a) => this._inputElement = a} placeholder="enter task">
+                </input>
+                <button type="submit">Add</button>
+                <button type="submit">Randomize</button>
+             </form>
+        </footer>
+    );
+  }
+
   render() {
     return (
-      <div className="cardInputs">
-        <div className="bottomInput">
-         <form onSubmit={this.addCard}>
-         <input ref={(a) => this._inputElement = a} placeholder="enter task">
-            </input>
-            <button type="submit">add</button>
-          </form>
-        </div>
-        <CardQueue entries={this.state.cards} delete={this.deleteItem}/>
+      <div className="view-area">
+        <h1 id="cardHeader">Morphilogical Creativity</h1>
+        <div>{this.listCards()}</div>
+        <footer className="bottomBar">{this.bottomInput()}</footer>
       </div>
     );
   }
@@ -78,13 +97,16 @@ class CardList extends Component {
 class CardQueue extends Component {
   constructor(props) {
     super(props);
- 
     this.createTasks = this.createTasks.bind(this);
   }
 
   createTasks(card) {
-    return <li onClick={() => this.delete(card.key)} 
-              key={card.key}>{card.text}</li>
+    return(
+      <li className="FuckThis" key={card.key}>
+        <Card entries={card} 
+        onClick={() => this.delete(card.key)}/>
+      </li>
+    );
   }
 
   delete(key) {
@@ -96,67 +118,37 @@ class CardQueue extends Component {
     var listCards = cardQueue.map(this.createTasks);
  
     return (
-      <ul className="theList">
+      <ul className="cardQueue">
+      <FlipMove duration={250} easing="ease-out">
           {listCards}
+      </FlipMove>
       </ul>
     );
   }
 };
  
-
-
-class ActiveWords extends Component {
-
-  render() {
-    return (
-      <div className="active-words">
-        Card Queue Below Here
-        <Card />
-        <CardList/>
-      </div>
-    );
+class Card extends Component {
+  render(){
+  return (
+   <div className="card">
+    <h1 className="word"> 
+      {this.props.entries.text} 
+    </h1>
+    <div className="buttonbar">
+      <button className="lock-button"/>
+      <button className="delete-button"
+        onClick={() => 
+        this.props.onClick(this.props.entries.key)} />
+    </div>
+  </div>  
+  );
   }
 }
-
-function Card(props) {
-  return (
-    <span className="card">
-    <div>
-      <h1 className="word"> Card.props </h1>
-      <ButtonBar />
-    </div>
-    </span>
-  );
-}
-
-
-
-function ButtonBar() {
-  return(
-    <div className="buttonbar">
-        <LockWordButton />
-        <DeleteWordButton />
-    </div>
-  );
-}
-
-function LockWordButton() {
-  return(
-    <button className="lock-button"/>
-  );
-}
-
-function DeleteWordButton() {
-  return(
-    <button className="delete-button" />
-  );
-}
-
 
 
 
 /*
-replace with ArrowFunction*/
+replace binds with ArrowFunction*/
 
 
 export default App;
